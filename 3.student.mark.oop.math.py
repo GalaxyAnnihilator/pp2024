@@ -208,33 +208,49 @@ class University:
         Outils.show(self.get_courses(), stdscr)
 
     def calculate_GPA(self, student):
-        total_credits = 0
-        weighted_sum = 0
+        marks = []
+        credits = []
         for course_id, mark in student.get_marks().items():
             course = next((c for c in self.__courses if c.get_id() == course_id), None)
             if course:
-                credits = course.get_credits()
-                total_credits += credits
-                weighted_sum += mark * credits
+                marks.append(mark)
+                credits.append(course.get_credits())
 
-        if total_credits > 0:
+        if credits:
+            marks_array = np.array(marks)
+            credits_array = np.array(credits)
+
+            # Calculate GPA
+            weighted_sum = np.sum(marks_array * credits_array)
+            total_credits = np.sum(credits_array)
             gpa = weighted_sum / total_credits
             student.set_GPA(round(gpa, 2))
         else:
             student.set_GPA(0.0)
 
-    def display_GPA(self):
+    def display_GPA(self, stdscr):
         for student in self.__students:
             self.calculate_GPA(student)
-        self.list_students()
+
+        gpa_data = [(student.get_name(), student.get_GPA()) for student in self.__students]
+        dtype = [('name', 'U50'), ('gpa', 'f4')]
+        gpa_array = np.array(gpa_data, dtype=dtype)
+
+        sorted_gpa_array = np.sort(gpa_array, order='gpa')[::-1]
+
+        stdscr.clear()
+        stdscr.addstr("GPA List (Descending Order):\n")
+        for i, record in enumerate(sorted_gpa_array):
+            stdscr.addstr(f"{i + 1}. {record['name']} - GPA: {record['gpa']:.2f}\n")
+        stdscr.refresh()
 
     
 # Preloaded data
 def preload_data(university):
     pre_entered_students = [
         Student("S001", "An", "12/01/2000", {"C001": 15, "C002": 19}),
-        Student("S002", "Binh", "30/12/2005", {"C001": 18}),
-        Student("S003", "Cuong", "03/03/2004", {"C002": 20})
+        Student("S002", "Binh", "30/12/2005", {"C001": 18, "C002" : 20}),
+        Student("S003", "Cuong", "03/03/2004", {"C002": 20, "C002": 15})
     ]
 
     pre_entered_courses = [
@@ -264,7 +280,8 @@ def curses_main(stdscr):
         "6. Display all students",
         "7. Display all courses",
         "8. Display mark for a specific course",
-        "9. Exit"
+        "9. Calculate and display GPA of all students in descending order",
+        "10. Exit"
     ]
 
     while True:
@@ -313,6 +330,8 @@ def curses_main(stdscr):
         elif choice == 8:
             USTH.display_mark(stdscr)
         elif choice == 9:
+            USTH.display_GPA(stdscr)
+        elif choice == 10:
             stdscr.addstr(len(menu_text) + 2, 0, "Au revoir")
             stdscr.refresh()
             stdscr.getch()
