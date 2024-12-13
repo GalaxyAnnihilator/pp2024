@@ -1,0 +1,2 @@
+CourseID: C001, Name: Python, Credits: 3
+CourseID: C002, Name: OOP, Credits: 4

@@ -1,0 +1,10 @@
+Python
+An: 15
+Binh: 18
+Cuong: 20
+
+OOP
+An: 19
+Binh: 20
+Cuong: 15
+
