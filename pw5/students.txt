@@ -1,3 +1,0 @@
-StudentID: S001, Name: An, DoB: 12/01/2000
-StudentID: S002, Name: Binh, DoB: 30/12/2005
-StudentID: S003, Name: Cuong, DoB: 03/03/2004
