@@ -1,24 +1,8 @@
-import curses, pickle, gzip
+import curses
 from domains import Student, Course, University
 
 def curses_main(stdscr):
     USTH = University()
-
-    pre_entered_students = [
-        Student("S001", "An", "12/01/2000", {"C001": 15, "C002": 19}),
-        Student("S002", "Binh", "30/12/2005", {"C001": 18, "C002": 20}),
-        Student("S003", "Cuong", "03/03/2004", {"C001": 20, "C002": 15})
-]
-
-    pre_entered_courses = [
-        Course("C001", "Python", 3),
-        Course("C002", "OOP", 4)
-    ]
-
-    # Save data to a compressed file
-    with gzip.open("data.pkl.gz", "wb") as file:
-        pickle.dump((pre_entered_students, pre_entered_courses), file)
-
 
     #attempt to load
     message = USTH.load_data_from_compressed_file()

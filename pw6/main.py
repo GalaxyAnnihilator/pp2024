@@ -6,8 +6,8 @@ import curses
 def curses_main(stdscr):
     USTH = University()
 
-    #attempt to load
-    message = USTH.load_data_from_compressed_file()
+    #attempt to load from pickle file
+    message = USTH.load_pickle()
 
     # Clear screen
     stdscr.clear()

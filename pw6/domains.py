@@ -1,6 +1,7 @@
 import zipfile, os, numpy as np
 from input import InputOutils
 from output import OutputOutils
+import pickle, gzip
 
 class Person:
     def __init__(self, name, dob):
@@ -301,3 +302,19 @@ class University:
                             student.get_marks()[current_course.get_id()] = float(mark)
         except FileNotFoundError:
             print(f"{filename} not found. No marks loaded.")
+
+    def load_pickle(self):
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        if os.path.basename(current_dir) == "pw6":
+            data_file_path = os.path.join(current_dir, "data.pkl.gz")
+        else:
+            data_file_path = os.path.join(current_dir, "pw6", "data.pkl.gz")
+
+        with gzip.open(data_file_path, "rb") as file:
+            loaded_students, loaded_courses = pickle.load(file)
+            self.set_courses(len(loaded_courses))
+            self.set_students(len(loaded_students))
+            self.load_courses(loaded_courses)
+            self.load_students(loaded_students)
+            return f"Data successfully extracted from data.pkl.gz"
