@@ -115,8 +115,6 @@ class University:
         for _ in range(self.get_num_students()):
             self.add_student(stdscr)
 
-        OutputOutils.writeToFile(self.get_students(),"students.txt")
-
     def input_courses(self, stdscr):
         if self.get_num_courses() == 0:
             stdscr.addstr(0, 0, "Please input the number of courses first.")
@@ -126,8 +124,6 @@ class University:
 
         for _ in range(self.get_num_courses()):
             self.add_course(stdscr)
-
-        OutputOutils.writeToFile(self.get_courses(),"courses.txt")    
 
     def enter_mark(self, stdscr):
         course_id = InputOutils.input_string("Enter the course ID to input marks: ", stdscr)
@@ -144,8 +140,6 @@ class University:
             prompt = f"Enter marks for student {student.get_name()} (ID: {student.get_id()}): "
             mark = float(InputOutils.input_string(prompt, stdscr))
             student.get_marks()[course_id] = mark    
-
-        OutputOutils.write_marks_to_file(self, "marks.txt")    
 
     def display_mark(self, stdscr):
         course_id = InputOutils.input_string("Enter the course ID to view marks: ", stdscr)
@@ -318,3 +312,15 @@ class University:
             self.load_courses(loaded_courses)
             self.load_students(loaded_students)
             return f"Data successfully extracted from data.pkl.gz"
+        
+    def save_pickle(self):
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        if os.path.basename(current_dir) == "pw6":
+            data_file_path = os.path.join(current_dir, "data.pkl.gz")
+        else:
+            data_file_path = os.path.join(current_dir, "pw6", "data.pkl.gz")
+
+        with gzip.open(data_file_path, "wb") as file:  # Correct mode is 'wb'
+            pickle.dump((self.__courses, self.__students), file)  # Serialize tuple and write to file
+        return f"Data successfully saved to data.pkl.gz"

@@ -262,6 +262,7 @@ class University:
                     name = parts[1].split(": ")[1]
                     credits = int(parts[2].split(": ")[1])
                     self.__courses.append(Course(course_id, name, credits))
+                    self.__num_courses += 1
         except FileNotFoundError:
             print(f"{filename} not found. No courses loaded.")
 
@@ -274,6 +275,7 @@ class University:
                     name = parts[1].split(": ")[1]
                     dob = parts[2].split(": ")[1]
                     self.__students.append(Student(student_id, name, dob))
+                    self.__num_students += 1
         except FileNotFoundError:
             print(f"{filename} not found. No students loaded.")
 

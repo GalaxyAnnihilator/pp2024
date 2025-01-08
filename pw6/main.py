@@ -71,7 +71,8 @@ def curses_main(stdscr):
         elif choice == 9:
             USTH.display_GPA(stdscr)
         elif choice == 10:
-            stdscr.addstr(len(menu_text) + 2, 0, "Au revoir")
+            USTH.save_pickle()
+            stdscr.addstr(len(menu_text) + 2, 0, "Successfully saved ! Au Revoir")
             stdscr.refresh()
             stdscr.getch()
             break

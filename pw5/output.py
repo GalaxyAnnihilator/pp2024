@@ -1,9 +1,9 @@
 import zipfile, os 
 
 class OutputOutils:
-    def __init__(self):
-        # Determine the absolute path to the current script's directory (pw5)
-        self.base_path = os.path.dirname(os.path.abspath(__file__))
+    global base_path
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    data_folder = os.path.join(base_path, "data")  # Set data folder path
 
     @staticmethod
     def show(list_items, stdscr):
@@ -13,15 +13,19 @@ class OutputOutils:
         stdscr.refresh()
         stdscr.getch()
 
-    def writeToFile(self, list_items, fileDestination):
-        # Combine the base path with the relative destination
-        full_path = os.path.join(self.base_path, fileDestination)
+    def writeToFile(list_items, fileDestination):
+        # Ensure the data folder exists
+        os.makedirs(OutputOutils.data_folder, exist_ok=True)
+        # Combine the data folder path with the relative destination
+        full_path = os.path.join(OutputOutils.data_folder, fileDestination)
         with open(full_path, 'w') as f:
             for i in list_items:
                 f.write(str(i) + '\n')
 
-    def write_marks_to_file(self, uni, filename="marks.txt"):
-        full_path = os.path.join(self.base_path, filename)
+    def write_marks_to_file(uni, filename="marks.txt"):
+        # Ensure the data folder exists
+        os.makedirs(OutputOutils.data_folder, exist_ok=True)
+        full_path = os.path.join(OutputOutils.data_folder, filename)
         with open(full_path, 'w') as f:
             for course in uni.get_courses():
                 f.write(f"{course.get_name()}\n")
