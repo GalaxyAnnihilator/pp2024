@@ -1,4 +1,4 @@
 TranMinhDuong
 M6789
 100000
-['A', 'B', 'C']
+[A, B, C]

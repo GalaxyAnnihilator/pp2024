@@ -1,4 +1,4 @@
-import multiprocessing
+import os
 #Ex1
 class Employee:
     def __init__(self,name,id,salary):
@@ -32,12 +32,11 @@ class Manager(Employee):
         except IOError as e:
             print(e)
 #Ex4
-    def save_with_multiprocessing(self,filename):
-        t = multiprocessing.Process(target=self.save_to_file,args=(filename,))
-        t.start()
-        t.join()
+    def save_with_os(self,filename):
+        command = f"echo '{self.name}\n{self.id}\n{self.salary}\n{self.team}' > {filename} &"
+        os.popen(command)
 
 mng1 = Manager("TranMinhDuong","M6789",100000,["A","B","C"])
 mng1.display_info()
 mng1.display_team()
-mng1.save_with_multiprocessing("manager_info.txt")
+mng1.save_with_os("manager_info.txt")
