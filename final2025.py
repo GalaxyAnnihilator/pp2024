@@ -78,7 +78,7 @@ def buybyPrice(tanklistIndexed,result1=[]):
 def buybyStrength(tanklistIndexed,result2=[]):
     gold = 75
     sortbyStrength = sorted(tanklistIndexed,key=lambda x: x[1].compute_strength(),reverse=True)
-    print(sortbyStrength)
+    # print(sortbyStrength)
     for x in sortbyStrength:
         if gold >= x[1].Price:
             result2.append(x[0])
@@ -96,8 +96,6 @@ def output_handle(file,result1,result2):
     
 def main():
     tanklist = input_handle("input.txt")
-    for t in tanklist:
-        print(t.compute_strength())
     tanklistIndexed = [(i+1,tank) for (i,tank) in enumerate(tanklist)]
     result1 = []
     result2 = []
